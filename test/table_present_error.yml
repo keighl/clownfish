@@ -1,0 +1,5 @@
+conn:
+  host: localhost:28015
+  db: clownfish
+tables:
+  "#####":

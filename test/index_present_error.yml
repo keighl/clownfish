@@ -1,0 +1,7 @@
+conn:
+  host: localhost:28015
+  db: "clownfish"
+tables:
+  users:
+    indices:
+      id: # not allowed!

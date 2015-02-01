@@ -1,0 +1,5 @@
+conn:
+  host: locusthost:28015
+  db: clownfish
+tables:
+  users:

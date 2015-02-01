@@ -1,0 +1,28 @@
+conn:
+  # RethinkDB cluster location
+  host: localhost:28015
+
+  # Name of the database.
+  # Clownfish will create the DB if it doesn't exist already
+  db: clownfish
+
+tables:
+
+  # Name of a table
+  users:
+    indices:
+      # Adds a secondary index on the `email` field
+      email:
+      api_token:
+
+  recipes:
+    # Specify a non-default primary key
+    primary_key: name
+
+    indices:
+      user_id:
+      flavor:
+      # Adds a comppund-secondary index named `user_flavor that indexes both `user_id` and `flavor` fields
+      user_flavor:
+        fields: [user_id, flavor]
+
