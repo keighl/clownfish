@@ -79,3 +79,11 @@ recipe_app:
 ```
 
 ### Installation
+
+**From source:**
+
+```bash
+go install github.com/keighl/clownfish
+```
+
+
