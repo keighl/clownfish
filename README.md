@@ -85,7 +85,7 @@ recipe_app:
 **Quick install**
 
 ```bash
-$ sudo curl https://raw.githubusercontent.com/keighl/clownfish/master/install.sh | bash
+$ curl https://raw.githubusercontent.com/keighl/clownfish/master/install.sh | sudo bash
 ```
 
 **From source:**
