@@ -3,15 +3,15 @@
 usage() {
   cat <<-USAGE
 Usage: ${0##*/} [<option>...] [<path>]
-Install clownfish to <path>. Default:
+Install clownfish client to <path>. Default:
   * determined interactively if possible
   * /usr/local/bin if run as root
   * /usr/local/bin if it is writable
   * $HOME/bin otherwise
 Options:
-  -v <version>           Install version <version>.      Default: $DEFAULT_VERSION
-  -o <operating system>  Install for <operating system>. Default: $DEFAULT_OS
-  -a <architecture>      Install for <architecture>.     Default: $DEFAULT_ARCH
+  -v <version>           Install client version <version>.      Default: $DEFAULT_VERSION
+  -o <operating system>  Install client for <operating system>. Default: $DEFAULT_OS
+  -a <architecture>      Install client for <architecture>.     Default: $DEFAULT_ARCH
 USAGE
 }
 
@@ -64,7 +64,7 @@ default_arch() {
 }
 
 latest_version() {
-  follow https://github.com/clownfish/cli/releases/latest | filter_version_tag ||
+  follow https://github.com/keighl/clownfish/releases/latest | filter_version_tag ||
   fail 'Failed to get latest version. Check your internet connection.'
 }
 
@@ -107,7 +107,7 @@ use_defaults() {
 
 read_directory() {
   if [ -t 0 ]; then
-    read -p "install into: [$DEFAULT_DIR] " REPLY
+    read -p "install client into: [$DEFAULT_DIR] " REPLY
     if [ -n "$REPLY" ]; then
       echo "$REPLY"
     else
@@ -139,9 +139,9 @@ check_directory_in_path() {
 }
 
 install() {
-  CLOWNFISH_FILES="https://github.com/keighl/clownfish/releases/download/$VERSION/clownfish-$OS-$ARCH.tgz"
-  echo "\nDownloading $CLOWNFISH_FILES...\n"
-  download $CLOWNFISH_FILES | extract "$DIR"
+  CF_FILES="https://github.com/keighl/clownfish/releases/download/$VERSION/clownfish-$OS-$ARCH.tgz"
+  echo "\nDownloading $CF_FILES...\n"
+  download $CF_FILES | extract "$DIR"
   [ $? -eq 0 ] && echo "Installed clownfish to $DIR"
 }
 
@@ -154,7 +154,7 @@ download() {
 }
 
 extract() {
-  tar xzf "$1" clownfish ||
+  tar xz -C "$1" clownfish ||
   fail "failed to extract clownfish"
 }
 
