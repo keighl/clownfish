@@ -1,5 +1,7 @@
 # Clownfish
 
+[![Build Status](https://travis-ci.org/keighl/clownfish.png?branch=master)](https://travis-ci.org/keighl/clownfish)
+
 Clownfish is a CLI tool for easily adding tables and indices in a RethinkDB database based on a simple YAML input. It traverses your YAML instructions and creates any tables and indices that don't exist yet.
 
 ### Usage

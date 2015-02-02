@@ -9,4 +9,3 @@ before_script:
   - sudo apt-get install rethinkdb
   - sudo rethinkdb --daemon
 
-before_script:
