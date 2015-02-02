@@ -1,4 +1,6 @@
 .DS_Store
 rethinkdb_data
 clownfish
+clownfish.exe
 out
+release
