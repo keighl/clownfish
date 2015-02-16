@@ -4,6 +4,11 @@ import (
   "testing"
 )
 
+func Test_NewCLI(t *testing.T) {
+  app := newCLI()
+  refute(t, app, nil)
+}
+
 func Test_ParseYMLFile_Fail_NoFile(t *testing.T) {
   err := ParseYMLFile("test/nonexistent.yml")
   refute(t, err, nil)

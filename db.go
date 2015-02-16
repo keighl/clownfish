@@ -11,14 +11,11 @@ func (c *Client) DBPresent() error {
 
     _, err := r.DbCreate(c.db).RunWrite(c.session)
     if (err != nil) {
-      c.Log(fmt.Sprintf(":%v DB failed to create", c.db))
+      c.Log(fmt.Sprintf("%v ... create failed", c.db))
       return err
     }
-    c.Log(fmt.Sprintf("%v: DB created", c.db))
-  } else {
-    c.Log(fmt.Sprintf("%v:", c.db))
   }
-
+  c.Log(fmt.Sprintf("+ %v", c.db))
   return nil
 }
 

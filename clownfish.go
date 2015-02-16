@@ -11,12 +11,14 @@ type Client struct {
   session *r.Session
   db string
   LogOutput bool
+  indexListCache map[string][]string
+  tableListCache []string
 }
 
 // Log conditionally prints to the standard-out if client.LogOutput is true
 func (c *Client) Log(f string) {
   if c.LogOutput {
-    printer(f)
+    fmt.Println(f)
   }
 }
 
@@ -27,13 +29,20 @@ func NewClient(conn Connection) (*Client, error) {
     Database: conn.DB,
   })
   if (err != nil) { return nil, errors.New("Couldn't connect to rethinkdb at "+conn.Host)}
-  return &Client{session, conn.DB, false}, nil
+  return &Client{
+    session: session,
+    db: conn.DB,
+    LogOutput: false,
+    indexListCache: map[string][]string{},
+    tableListCache: []string{},
+  }, nil
 }
 
 // Data is a high-level wrapper for YML parsing
 type Data struct {
   Conn Connection `yaml:"conn"`
   Tables map[string]Table `yaml:"tables"`
+  AbsentTables []string `yaml:"absent_tables"`
 }
 
 // Connection holds info for connecting to a rethinkdb cluster
@@ -53,6 +62,3 @@ func stringInSlice(a string, list []string) bool {
   return false
 }
 
-var printer = func (s string) {
-  fmt.Println(s)
-}

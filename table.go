@@ -9,6 +9,7 @@ import (
 type Table struct {
   Name string `yaml:"-"`
   Indicies map[string]Index `yaml:"indices"`
+  AbsentIndicies []string `yaml:"absent_indices"`
   PrimaryKey string `yaml:"primary_key"`
   Durability string `yaml:"durability"`
   Datacenter string `yaml:"datacenter"`
@@ -46,24 +47,48 @@ func (c *Client) TablePresent(table Table) error {
   if (!stringInSlice(table.Name, tables)) {
     _, err := r.Db(c.db).TableCreate(table.Name, table.TableCreateOpts()).RunWrite(c.session)
     if (err != nil) {
-      c.Log(fmt.Sprintf("  %v: table failed to create", table.Name))
+      c.Log(fmt.Sprintf("  + %v ... create failed", table.Name))
       return err
     }
-    c.Log(fmt.Sprintf("  %v: table created", table.Name))
-  } else {
-    c.Log(fmt.Sprintf("  %v:", table.Name))
+    c.clearTableList()
   }
+  c.Log(fmt.Sprintf("  + %v", table.Name))
 
+  return nil
+}
+
+// TableAbsent removes a table if it currently exists on the DB
+func (c *Client )TableAbsent(table Table) error {
+  tables, err := c.TableList()
+  if (err != nil) { return err }
+
+  if (stringInSlice(table.Name, tables)) {
+    _, err := r.Db(c.db).TableDrop(table.Name).RunWrite(c.session)
+    if (err != nil) {
+      c.Log(fmt.Sprintf("  - %v ... drop failed", table.Name))
+      return err
+    }
+    c.clearTableList()
+  }
+  c.Log(fmt.Sprintf("  - %v", table.Name))
   return nil
 }
 
 // TableList returns a slice of table names on the Client database
 func (c *Client) TableList() ([]string, error) {
+  if (len(c.tableListCache) > 0) {
+    return c.tableListCache, nil
+  }
+
   res, err := r.Db(c.db).TableList().Run(c.session)
   if (err != nil) { return nil, err }
 
-  tables := []string{}
-  res.All(&tables)
+  c.tableListCache = []string{}
+  res.All(&c.tableListCache)
 
-  return tables, nil
+  return c.tableListCache, nil
+}
+
+func (c *Client) clearTableList() {
+  c.tableListCache = []string{}
 }

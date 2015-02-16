@@ -11,15 +11,19 @@ import (
 var defaultFileName = "clownfish.yml"
 
 func main() {
+  newCLI().Run(os.Args)
+}
+
+func newCLI() *cli.App {
   app := cli.NewApp()
   app.Name = "clownfish"
   app.Usage = `YAML based management tool for RethinkDB tables and indices.
 
    $ clownfish
    $ clownfish db_config.yml`
-  app.Version = "0.0.1"
+  app.Version = "0.1.0"
   app.Action = cliAction
-  app.Run(os.Args)
+  return app
 }
 
 func cliAction(c *cli.Context) {
@@ -55,18 +59,30 @@ func ParseYMLFile(file string) error {
 
   for name, table := range d.Tables {
 
+    // create table
     table.Name = name
     err := client.TablePresent(table)
     if (err != nil) { return err }
 
-    if (len(table.Indicies) > 0) {
-      client.Log("    indices:")
-    }
+    // create indices
     for indexName, index := range table.Indicies {
       index.Name = indexName
       err := client.IndexPresent(table, index)
       if (err != nil) { return err }
     }
+
+    for _, indexName := range table.AbsentIndicies {
+      index := Index{Name: indexName}
+      err := client.IndexAbsent(table, index)
+      if (err != nil) { return err }
+    }
+  }
+
+  // remove tables
+  for _, tableName := range d.AbsentTables {
+    table := Table{Name: tableName}
+    err := client.TableAbsent(table)
+    if (err != nil) { return err }
   }
 
   return nil

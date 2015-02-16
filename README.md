@@ -18,6 +18,7 @@ conn:
   db: recipe_app
 
 tables:
+
   # Name of a table
   users:
     indices:
@@ -32,9 +33,21 @@ tables:
     indices:
       user_id:
       flavor:
-      # Adds a compound-secondary index named `user_flavor` that indexes both `user_id` and `flavor` fields
+      # Adds a comppund-secondary index named `user_flavor that indexes both `user_id` and `flavor` fields
       user_flavor:
         fields: [user_id, flavor]
+
+  restaurants:
+    # Specify indices you want REMOVED from a table
+    absent_indices:
+      - sanitation_rating
+      - minimum_wage
+
+# Specify tables you want REMOVED from the database
+absent_tables:
+  - cheeses
+  - cakes
+  - soups
 ```
 
 Run it!
@@ -47,38 +60,23 @@ $ clownfish
 $ clownfish rethink_config.yml
 
 # Ouputs
-recipe_app: DB created
-  users: table created
-    indices:
-      * email: index created
-      * api_token: index created
-  recipes: table created
-    indices:
-      * user_id: index created
-      * flavor: index created
-      * user_flavor: index created
++ recipe_app
+  + users
+      + email
+      + api_token
+  + recipes
+      + user_id
+      + flavor
+      + user_flavor
+  + restaurants
+      - sanitation_rating
+      - minimum_wage
+  - cheeses
+  - cakes
+  - soups
 ```
 
 Run it again (and again...) to pick up new tables and indices:
-
-```bash
-$ clownfish
-recipe_app:
-  users:
-    indices:
-      * email
-      * api_token
-      * gender: index create
-  recipes:
-    indices:
-      * user_id
-      * flavor
-      * user_flavor
-  ingredients: table created
-    indices:
-      name: index created
-      price: index created
-```
 
 ### Installation
 

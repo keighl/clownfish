@@ -26,3 +26,16 @@ tables:
       user_flavor:
         fields: [user_id, flavor]
 
+  restaurants:
+
+    # Specify indices you want REMOVED from a table
+    absent_indices:
+      - sanitation_rating
+      - minimum_wage
+
+# Specify tables you want REMOVED from the database
+absent_tables:
+  - cheeses
+  - cakes
+  - soups
+

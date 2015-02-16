@@ -20,8 +20,6 @@ func rebuildDB() {
 }
 
 func init() {
-  printer = func (s string) {}
-
   s, err := r.Connect(r.ConnectOpts{
     Address: host,
     Database: db,
@@ -58,22 +56,7 @@ func Test_NewClient_Error(t *testing.T) {
 }
 
 func Test_ClientLog(t *testing.T) {
-  printedString := ""
-  printer = func (s string) {
-    printedString = s
-  }
   c := Client{LogOutput: true}
   c.Log("Client logging...")
-  expect(t, printedString, "Client logging...")
-}
-
-func Test_ClientLog_Stifle(t *testing.T) {
-  receivedPrint := false
-  printer = func (s string) {
-    receivedPrint = true
-  }
-  c := Client{LogOutput: false}
-  c.Log("Client logging...")
-  expect(t, receivedPrint, false)
 }
 
