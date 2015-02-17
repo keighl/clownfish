@@ -93,7 +93,7 @@ tar xzvf clownfish-linux-amd64.tgz
 sudo mv clownfish-linux-amd64 /usr/local/bin/clownfish
 ```
 
-**From source:**
+**If you have `go` installed:**
 
 ```bash
 go install github.com/keighl/clownfish
