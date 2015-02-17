@@ -2,40 +2,17 @@
 
 set -e -x
 
+rm -rf release
+
 echo "Creating release dir..."
 mkdir -p release
 
-echo "Creating darwin/386 binary..."
-GOOS=darwin GOARCH=386 go build -o clownfish
-tar cvzf release/clownfish-mac-32bit.tgz clownfish
+gox -output="./release/{{.Dir}}-{{.OS}}-{{.Arch}}"
 
-echo "Creating darwin/amd64 binary..."
-GOOS=darwin GOARCH=amd64 go build -o clownfish
-tar cvzf release/clownfish-mac-64bit.tgz clownfish
+cd release
+for f in $(find . -type f) ; do
+  tar -cvzf "${f}.tgz" "$f"
+  rm "$f"
+done
 
-echo "Creating linux/386 binary..."
-GOOS=linux GOARCH=386 go build -o clownfish
-tar cvzf release/clownfish-linux-32bit.tgz clownfish
 
-echo "Creating linux/amd64 binary..."
-GOOS=linux GOARCH=amd64 go build -o clownfish
-tar cvzf release/clownfish-linux-64bit.tgz clownfish
-
-echo "Creating linux/ARMv5 binary..."
-GOOS=linux GOARCH=arm GOARM=5 go build -o clownfish
-tar cvzf release/clownfish-linux-arm-v5.tgz clownfish
-
-echo "Creating linux/ARMv6 binary..."
-GOOS=linux GOARCH=arm GOARM=6 go build -o clownfish
-tar cvzf release/clownfish-linux-arm-v6.tgz clownfish
-
-echo "Creating windows/386 binary..."
-GOOS=windows GOARCH=386 go build -o clownfish.exe
-zip release/clownfish-windows-32bit.zip clownfish.exe
-
-echo "Creating windows/amd64 binary..."
-GOOS=windows GOARCH=amd64 go build -o clownfish.exe
-zip release/clownfish-windows-64bit.zip clownfish.exe
-
-rm clownfish.exe
-rm clownfish

@@ -80,10 +80,17 @@ Run it again (and again...) to pick up new tables and indices:
 
 ### Installation
 
-**Quick install**
+Find the right binary for your system on the [releases page.](https://github.com/keighl/clownfish/releases/latest)
 
 ```bash
-$ curl https://raw.githubusercontent.com/keighl/clownfish/master/install.sh | sudo bash
+// Download it
+curl -O -L https://github.com/keighl/clownfish/releases/download/0.1.0/clownfish-linux-amd64.tgz
+
+// Extract it
+tar xzvf clownfish-linux-amd64.tgz
+
+// Install it
+sudo mv clownfish-linux-amd64 /usr/local/bin/clownfish
 ```
 
 **From source:**
