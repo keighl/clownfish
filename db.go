@@ -9,7 +9,7 @@ import (
 func (c *Client) DBPresent() error {
   if (!stringInSlice(c.db, c.DBList())) {
 
-    _, err := r.DbCreate(c.db).RunWrite(c.session)
+    _, err := r.DBCreate(c.db).RunWrite(c.session)
     if (err != nil) {
       c.Log(fmt.Sprintf("%v ... create failed", c.db))
       return err
@@ -21,7 +21,7 @@ func (c *Client) DBPresent() error {
 
 // DBList returns a slice of cluster database names
 func (c *Client) DBList() []string {
-  res, _ := r.DbList().Run(c.session)
+  res, _ := r.DBList().Run(c.session)
   dbs := []string{}
   res.All(&dbs)
   return dbs

@@ -18,7 +18,7 @@ func Test_DBPresent_Create(t *testing.T) {
   dbs = client.DBList()
   expect(t, stringInSlice(client.db, dbs), true)
 
-  _, err = r.DbDrop(client.db).Run(session)
+  _, err = r.DBDrop(client.db).Run(session)
   expect(t, err, nil)
 }
 
@@ -50,6 +50,6 @@ func Test_DBPresent_Exists(t *testing.T) {
   err = client.DBPresent()
   expect(t, err, nil)
 
-  _, err = r.DbDrop(client.db).Run(session)
+  _, err = r.DBDrop(client.db).Run(session)
   expect(t, err, nil)
 }

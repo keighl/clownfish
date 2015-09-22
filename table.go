@@ -45,7 +45,7 @@ func (c *Client) TablePresent(table Table) error {
   if (err != nil) { return err }
 
   if (!stringInSlice(table.Name, tables)) {
-    _, err := r.Db(c.db).TableCreate(table.Name, table.TableCreateOpts()).RunWrite(c.session)
+    _, err := r.DB(c.db).TableCreate(table.Name, table.TableCreateOpts()).RunWrite(c.session)
     if (err != nil) {
       c.Log(fmt.Sprintf("  + %v ... create failed", table.Name))
       return err
@@ -63,7 +63,7 @@ func (c *Client )TableAbsent(table Table) error {
   if (err != nil) { return err }
 
   if (stringInSlice(table.Name, tables)) {
-    _, err := r.Db(c.db).TableDrop(table.Name).RunWrite(c.session)
+    _, err := r.DB(c.db).TableDrop(table.Name).RunWrite(c.session)
     if (err != nil) {
       c.Log(fmt.Sprintf("  - %v ... drop failed", table.Name))
       return err
@@ -80,7 +80,7 @@ func (c *Client) TableList() ([]string, error) {
     return c.tableListCache, nil
   }
 
-  res, err := r.Db(c.db).TableList().Run(c.session)
+  res, err := r.DB(c.db).TableList().Run(c.session)
   if (err != nil) { return nil, err }
 
   c.tableListCache = []string{}

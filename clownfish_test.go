@@ -15,8 +15,8 @@ var (
 )
 
 func rebuildDB() {
-  r.DbDrop(db).Exec(session)
-  r.DbCreate(db).Exec(session)
+  r.DBDrop(db).Exec(session)
+  r.DBCreate(db).Exec(session)
 }
 
 func init() {

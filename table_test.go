@@ -43,7 +43,7 @@ func Test_TablePresent_Exists(t *testing.T) {
     Name: "Test_TablePresent_Exists",
   }
 
-  _, err := r.Db(db).TableCreate(table.Name).RunWrite(client.session)
+  _, err := r.DB(db).TableCreate(table.Name).RunWrite(client.session)
   expect(t, err, nil)
   client.clearTableList()
 
@@ -99,7 +99,7 @@ func Test_TableCreateOpts(t *testing.T) {
 func Test_TableAbsent_Success(t *testing.T) {
   table := Table{Name: "Test_TableAbsent_Success"}
 
-  _, err := r.Db(db).TableCreate(table.Name).RunWrite(client.session)
+  _, err := r.DB(db).TableCreate(table.Name).RunWrite(client.session)
   expect(t, err, nil)
   client.clearTableList()
 
@@ -127,7 +127,7 @@ func Test_TableAbsent_Fail(t *testing.T) {
 
 func Test_TableAbsent_Absent(t *testing.T) {
   table := Table{Name: "Test_TableAbsent_Absent"}
-  _, err := r.Db(db).TableCreate(table.Name).RunWrite(client.session)
+  _, err := r.DB(db).TableCreate(table.Name).RunWrite(client.session)
   expect(t, err, nil)
 
   err = client.TableAbsent(table)
