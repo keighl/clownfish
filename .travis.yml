@@ -1,4 +1,3 @@
-sudo: false
 language: go
 
 go:
@@ -11,14 +10,5 @@ before_script:
   - sudo apt-get install rethinkdb
   - sudo rethinkdb --daemon
 
-before_install:
-  - go get goji.io
-  - go get github.com/onsi/gomega
-  - go get github.com/onsi/ginkgo
-  - go get golang.org/x/tools/cmd/cover
-
 script:
-  - go test -coverprofile=coverage.txt -covermode=atomic
-
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - go test .
