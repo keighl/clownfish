@@ -10,4 +10,7 @@ sudo: false
 
 install: true
 
-script: GO15VENDOREXPERIMENT=1 go test .
+script: GO15VENDOREXPERIMENT=1 go test . -coverprofile=coverage.txt -covermode=atomic
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
