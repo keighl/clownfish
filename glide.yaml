@@ -1,0 +1,5 @@
+package: github.com/keighl/clownfish
+import:
+- package: github.com/codegangsta/cli
+- package: gopkg.in/gorethink/gorethink.v2
+- package: gopkg.in/yaml.v2
