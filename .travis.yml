@@ -8,5 +8,8 @@ go:
 
 sudo: false
 
+before_script:
+  - go get google.golang.org/genproto/protobuf
+
 script:
   - GO15VENDOREXPERIMENT=1 go test .
